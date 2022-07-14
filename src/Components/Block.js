@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Item from './Item';
 
 
 const Block = () => {
-    const [active, setActive] = useState([]);
-    const [a, setA] = useState([]);
+    const [active, setActive] = useState("");
     const [repetition, setRepetition] = useState(3);
+    const [b, setb] = useState([]);
 
     let array = [1, 2, 3, 4];
+    let c = [];
 
 
     const handleRandom = (repetition) => {
@@ -18,31 +19,34 @@ const Block = () => {
         }
         setRepetition(repetition + 1);
         setActive(niz);
+        setb(niz)
     }
 
 
     // mozda nije potrebno
     const handleStartButton = (e) => {
         e.preventDefault()
+        setActive("")
         handleRandom(repetition);
     }
 
 
-    const handleUserClick = (e, value) => {
+    const handleUserClick = (value) => {
+        c.push(value);
+        console.log(c);
 
-        // console.log(b.every((val, index) => val === c[index]));
+        if (c.length === active.length) {
+            active.every((val, index) => val === c[index]) ? alert("Congratulations!")
+                : alert("You have lost!");
+
+        }
     }
-    console.log(a);
-
-    useEffect(() => {
-        setActive([]);
-    }, [repetition]);
-
+    console.log(active);
 
     return (
         <>
             <div className='block'>
-                {array.map((item, index) => <Item item={item} key={index} handleUserClick={handleUserClick} />)}
+                {array.map((item, index) => <Item item={item} key={index} handleUserClick={handleUserClick} b={b} />)}
             </div>
             <button type='button' className='btn' onClick={(e) => handleStartButton(e)}>Start</button>
         </>
